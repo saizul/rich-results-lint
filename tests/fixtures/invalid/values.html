@@ -1,0 +1,11 @@
+<!-- expect: value/date value/duration value/timezone value/url-relative value/url-invalid value/currency value/country value/number value/boolean value/empty schema/invalid-enum -->
+<html><head><script type="application/ld+json">
+{"@context": "https://schema.org", "@type": "Recipe", "name": "Bad values", "image": "images/dish.jpg",
+ "datePublished": "13/11/2026", "prepTime": "20 minutes", "cookTime": "PT10M-PT20M", "totalTime": "P1H",
+ "recipeYield": "", "url": "https://example.com/my recipe",
+ "video": {"@type": "VideoObject", "name": "v", "thumbnailUrl": "//cdn.example.com/t.jpg", "uploadDate": "2026-01-01T10:00:00",
+   "isFamilyFriendly": "maybe"},
+ "author": {"@type": "Person", "name": "A", "address": {"@type": "PostalAddress", "addressCountry": "Bangladesh"}},
+ "aggregateRating": {"@type": "AggregateRating", "ratingValue": 4, "ratingCount": "many"},
+ "offers": {"@type": "Offer", "price": 10, "priceCurrency": "taka", "availability": "available"}}
+</script></head><body></body></html>

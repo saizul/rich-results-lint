@@ -1,0 +1,11 @@
+<!-- expect: schema/unknown-type schema/unknown-property schema/unexpected-property schema/superseded-property schema/missing-type -->
+<html><head><script type="application/ld+json">
+{"@context": "https://schema.org", "@type": "product", "name": "Lowercase type",
+ "descripton": "typo", "aggregateRatings": {"@type": "AggregateRating", "ratingValue": 4, "reviewCount": 2},
+ "headline": "Products have no headline",
+ "offers": {"price": 10, "priceCurrency": "BDT"}}
+</script>
+<script type="application/ld+json">
+{"@context": "https://schema.org", "@type": "VideoObject", "name": "v", "thumbnailUrl": "https://example.com/t.jpg",
+ "uploadDate": "2026-01-01T00:00:00Z", "interactionCount": "1000", "sku": "V-1", "contentUrl": "https://example.com/v.mp4"}
+</script></head><body></body></html>

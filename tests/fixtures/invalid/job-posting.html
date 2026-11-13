@@ -1,0 +1,13 @@
+<!-- expect: google/required job/employment-type job/salary job/title job/description job/expired job/location-country job/remote -->
+<html><head><script type="application/ld+json">
+{"@context": "https://schema.org", "@type": "JobPosting", "title": "URGENT!!! Sales Executive - $500",
+ "description": "Sales Executive", "datePosted": "2025-01-01", "validThrough": "2025-02-01",
+ "employmentType": ["full-time", "Permanent"],
+ "hiringOrganization": {"@type": "Organization"},
+ "jobLocation": {"@type": "Place", "address": {"@type": "PostalAddress", "addressLocality": "Dhaka"}},
+ "baseSalary": {"@type": "MonetaryAmount", "currency": "Taka", "value": {"@type": "QuantitativeValue", "minValue": 30000, "maxValue": 20000, "unitText": "monthly"}}}
+</script>
+<script type="application/ld+json">
+{"@context": "https://schema.org", "@type": "JobPosting", "name": "Remote designer", "description": "Design marketing pages and social media graphics for a small online brand, fully remote.",
+ "datePosted": "2026-10-01", "hiringOrganization": {"@type": "Organization", "name": "Brand"}, "jobLocationType": "REMOTE", "baseSalary": 5000}
+</script></head><body></body></html>

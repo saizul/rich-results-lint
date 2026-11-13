@@ -1,0 +1,8 @@
+<!-- expect: syntax/json-ld-shape syntax/missing-context syntax/unknown-context syntax/unknown-keyword syntax/empty-script -->
+<html><head>
+<script type="application/ld+json">["just a string"]</script>
+<script type="application/ld+json">{"@type": "Organization", "name": "No context", "url": "https://example.com"}</script>
+<script type="application/ld+json">{"@context": "https://example.org/vocab", "@type": "Thing", "name": "x"}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Thing", "@name": "keyword typo"}</script>
+<script type="application/ld+json">   </script>
+</head><body></body></html>

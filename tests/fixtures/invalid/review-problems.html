@@ -1,0 +1,14 @@
+<!-- expect: review/rating-range review/author-name review/item-type google/required -->
+<html><head><script type="application/ld+json">
+{"@context": "https://schema.org", "@type": "Product", "name": "Lamp", "image": "https://example.com/l.jpg",
+ "aggregateRating": {"@type": "AggregateRating", "ratingValue": 9, "reviewCount": 0},
+ "review": [
+   {"@type": "Review", "author": {"@type": "Person", "name": "50% off until Saturday"}, "reviewRating": {"@type": "Rating", "ratingValue": 6, "bestRating": 5}},
+   {"@type": "Review", "author": {"@type": "Person"}, "reviewRating": {"@type": "Rating", "ratingValue": 3, "bestRating": 3, "worstRating": 3}},
+   {"@type": "Review", "reviewRating": {"@type": "Rating"}}
+ ]}
+</script>
+<script type="application/ld+json">
+{"@context": "https://schema.org", "@type": "Review", "itemReviewed": {"@type": "WebSite", "name": "Some site"},
+ "author": {"@type": "Person", "name": "Asha"}, "reviewRating": {"@type": "Rating", "ratingValue": 4}}
+</script></head><body></body></html>

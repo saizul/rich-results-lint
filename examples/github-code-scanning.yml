@@ -1,0 +1,29 @@
+# Example workflow for your site's repository: lint the built HTML and show the findings
+# in GitHub code scanning. Save as .github/workflows/structured-data.yml.
+name: Structured data
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+  security-events: write
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      # Build your site here so that ./public holds the generated HTML.
+      - run: pip install "rich-results-lint @ git+https://github.com/saizul/rich-results-lint"
+      - run: rich-results-lint public --format sarif --output structured-data.sarif --fail-on never
+      - uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: structured-data.sarif
+      # Fail the job on errors after the upload.
+      - run: rich-results-lint public --fail-on error

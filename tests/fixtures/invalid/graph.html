@@ -1,0 +1,8 @@
+<!-- expect: graph/unresolved-id graph/duplicate-id -->
+<html><head><script type="application/ld+json">
+{"@context": "https://schema.org", "@graph": [
+  {"@type": "Organization", "@id": "#org", "name": "Org", "url": "https://example.com", "logo": "https://example.com/l.png", "sameAs": "https://x.com/org"},
+  {"@type": "Person", "@id": "#org", "name": "Same id, other type"},
+  {"@type": "Article", "headline": "h", "author": {"@id": "#nobody"}, "publisher": {"@id": "#org"}}
+]}
+</script></head><body><h1>h</h1></body></html>

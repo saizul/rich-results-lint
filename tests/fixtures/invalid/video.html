@@ -1,0 +1,14 @@
+<!-- expect: google/required video/regions video/expired video/clips video/live google/recommended -->
+<html><head><script type="application/ld+json">
+{"@context": "https://schema.org", "@type": "VideoObject", "name": "Live match",
+ "regionsAllowed": "BD", "ineligibleRegion": "US", "expires": "2021-01-01T00:00:00Z",
+ "contentUrl": "https://example.com/watch",
+ "publication": {"@type": "BroadcastEvent", "isLiveBroadcast": "no"},
+ "interactionStatistic": {"@type": "InteractionCounter", "interactionType": {"@type": "WatchAction"}},
+ "hasPart": [
+   {"@type": "Clip", "name": "Kick off", "startOffset": 10, "url": "https://example.com/watch?t=10"},
+   {"@type": "Clip", "name": "Goal", "startOffset": 10, "endOffset": 5},
+   {"@type": "Clip", "startOffset": "one minute", "url": "https://example.com/watch?t=60"}
+ ],
+ "potentialAction": {"@type": "SeekToAction", "target": "https://example.com/watch?t=", "startOffset-input": "required"}}
+</script></head><body><h1>Live match</h1></body></html>

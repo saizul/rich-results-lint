@@ -1,0 +1,17 @@
+# Copy to .rich-results-lint.toml in your project root, or put the same keys under
+# [tool.rich-results-lint] in pyproject.toml.
+
+# Report findings at or above this level as a failure (exit status 1): error, warning, info or never.
+fail-on = "error"
+format = "text"
+
+# Rule ids, groups ("value") or globs ("google/*").
+ignore = ["content/no-structured-data"]
+# select = ["google", "schema", "value"]
+
+# Only run some Google feature checks (see rich-results-lint --list-features).
+# features = ["product", "breadcrumb", "organization"]
+
+# Shops that want merchant listings can treat those requirements as errors.
+[severity]
+"merchant/required" = "error"

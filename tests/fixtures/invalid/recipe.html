@@ -1,0 +1,16 @@
+<!-- expect: google/required recipe/times recipe/yield recipe/instructions -->
+<html><head><script type="application/ld+json">
+{"@context": "https://schema.org", "@type": "Recipe", "name": "Plain Rice", "cookTime": "PT20M",
+ "nutrition": {"@type": "NutritionInformation", "calories": "200 calories"},
+ "recipeInstructions": [
+   {"@type": "HowToStep", "name": "1", "text": "Step 1: Wash the rice."},
+   {"@type": "HowToStep", "name": "Boil"},
+   {"@type": "HowToSection", "itemListElement": []},
+   {"@type": "WebPage", "name": "wrong"},
+   "Directions: drain and serve."
+ ]}
+</script>
+<script type="application/ld+json">
+{"@context": "https://schema.org", "@type": "Recipe", "name": "One block", "image": "https://example.com/r.jpg", "prepTime": "PT5M", "cookTime": "PT5M",
+ "recipeInstructions": "Wash the rice in cold water three times until the water runs clear. Add two cups of water for each cup of rice and a pinch of salt. Bring to a boil, then cover and simmer on the lowest heat for fifteen minutes."}
+</script></head><body></body></html>

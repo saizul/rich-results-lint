@@ -1,0 +1,13 @@
+<!-- expect: google/required value/price product/price-zero product/aggregate-offer product/price-valid-until merchant/required google/recommended content/price-mismatch content/not-visible -->
+<html><head><script type="application/ld+json">
+{"@context": "https://schema.org", "@type": "Product", "name": "Phone Case",
+ "offers": [
+   {"@type": "Offer", "priceCurrency": "BDT", "availability": "https://schema.org/InStock"},
+   {"@type": "Offer", "price": "1,250.00", "priceCurrency": "BDT"},
+   {"@type": "Offer", "price": "300-500", "priceCurrency": "BDT"},
+   {"@type": "Offer", "price": "10,5", "priceCurrency": "EUR"},
+   {"@type": "Offer", "price": 0, "priceCurrency": "BDT", "priceValidUntil": "2020-12-31", "availability": "https://schema.org/InStock"},
+   {"@type": "Offer", "price": 999, "availability": "https://schema.org/InStock", "priceValidUntil": "2030-01-01"},
+   {"@type": "AggregateOffer", "highPrice": 50}
+ ]}
+</script></head><body><h1>Something else</h1><p>Only 499 taka</p></body></html>
