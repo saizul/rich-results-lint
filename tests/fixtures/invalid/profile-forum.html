@@ -1,0 +1,15 @@
+<!-- expect: google/required google/recommended profile/main-entity profile/interaction profile/dates forum/author forum/dates -->
+<html><head><script type="application/ld+json">
+{"@context": "https://schema.org", "@type": "ProfilePage",
+ "dateCreated": "2026-05-01", "dateModified": "2025-05-01",
+ "mainEntity": {"@type": "WebPage", "name": "About",
+   "interactionStatistic": {"@type": "InteractionCounter", "interactionType": "https://schema.org/ReadAction"}}}
+</script>
+<script type="application/ld+json">
+{"@context": "https://schema.org", "@type": "ProfilePage", "mainEntity": "Tanvir"}
+</script>
+<script type="application/ld+json">
+{"@context": "https://schema.org", "@type": "DiscussionForumPosting", "headline": "Help",
+ "author": "guest", "datePublished": "2030-01-01T10:00:00+06:00",
+ "comment": {"@type": "Comment", "text": "Reply", "datePublished": "2029-01-01T10:00:00+06:00"}}
+</script></head><body><h1>About</h1><h1>Help</h1></body></html>

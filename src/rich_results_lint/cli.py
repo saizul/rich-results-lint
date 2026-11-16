@@ -113,9 +113,11 @@ def main(
             out.write(f"{rule.id:<{width}}  {rule.severity.value:<7}  {rule.description}\n")
         return EXIT_OK
     if args.list_features:
+        id_width = max(len(f.id) for f in FEATURES)
+        name_width = max(len(f.name) for f in FEATURES)
         for f in FEATURES:
             types = ", ".join(f.types)
-            out.write(f"{f.id:<15} {f.name:<16} {types}\n")
+            out.write(f"{f.id:<{id_width}}  {f.name:<{name_width}}  {types}\n")
         return EXIT_OK
     if not args.sources:
         parser.print_usage(err)
