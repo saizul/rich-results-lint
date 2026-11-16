@@ -19,6 +19,8 @@ class Article(Feature):
     name = "Article"
     doc = "article"
     types = ("Article",)
+    # Forum posts have their own feature (discussion-forum) with different requirements.
+    exclude = ("DiscussionForumPosting",)
     # Google lists no required properties for Article; these are its recommended ones.
     recommended = (
         "author",

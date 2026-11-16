@@ -63,7 +63,8 @@ product.html  (2 items: BreadcrumbList, Product)
   References are resolved across scripts and `@graph`, so `"offers": {"@id": "#offer"}` is checked as an Offer.
 - **Google rich results** - required and recommended properties and the documented value rules for Article, Product
   snippet and merchant listing (offers, review and aggregateRating), Breadcrumb, FAQ (deprecated), How-to (removed),
-  Local business, Organization, Event, Job posting, Recipe, Video and Review snippet. See
+  Local business, Organization, Event, Job posting, Recipe, Video, Review snippet, Software app, Dataset, Profile page
+  and Discussion forum. See
   [Google rich result checks](#google-rich-result-checks).
 - **Content mismatch hints** - names, headlines and prices in JSON-LD that do not appear in the visible page text.
 - **Output** - text (with colour), JSON and SARIF 2.1.0 for GitHub code scanning; exit codes for CI.
@@ -148,6 +149,10 @@ looks out of date, please open an issue with a link to the current page.
 | Job posting (`job-posting`) | JobPosting | datePosted, description, hiringOrganization with name, jobLocation (or TELECOMMUTE with applicantLocationRequirements), title, jobLocation.address.addressCountry | baseSalary, employmentType, validThrough, directApply, identifier; hiringOrganization sameAs and logo | employmentType values (case-sensitive), baseSalary MonetaryAmount with ISO 4217 currency and unitText HOUR/DAY/WEEK/MONTH/YEAR, min not above max, title without codes/prices/dates/"!", description not equal to title, expired validThrough |
 | Recipe (`recipe`) | Recipe (also in ItemList carousels) | image, name | aggregateRating, author, cookTime and prepTime (or totalTime), datePublished, description, keywords, nutrition.calories, recipeCategory, recipeCuisine, recipeIngredient, recipeInstructions, recipeYield, video | cookTime needs prepTime, recipeYield needed with calories, HowToStep/HowToSection structure, no "Step 1" labels, no single text block |
 | Video (`video`) | VideoObject (also nested in Article, Recipe ...) | name, thumbnailUrl, uploadDate | contentUrl or embedUrl, description, duration | regionsAllowed and ineligibleRegion together, past expires, Clip name/startOffset/url and unique offsets, SeekToAction target and input, live BroadcastEvent isLiveBroadcast and startDate, contentUrl is not the page URL |
+| Software app (`software-app`) | SoftwareApplication, MobileApplication, WebApplication, VideoGame (co-typed with SoftwareApplication) | name, offers, offers.price; aggregateRating or review; offers.priceCurrency when the price is above 0 | applicationCategory, operatingSystem | applicationCategory must be one of Google's 22 categories (with a suggestion for `Game` or `Finance`), VideoGame without the SoftwareApplication co-type, offers as text, nested review and aggregateRating |
+| Dataset (`dataset`) | Dataset | description, name | creator (with name), distribution, keywords, license, url, temporalCoverage or spatialCoverage; DataDownload encodingFormat; DataCatalog name | description 50 to 5000 characters and not equal to the name, distribution must be a DataDownload with contentUrl, temporalCoverage as an ISO 8601 date or interval (`2008/2012`, `2013-09/..`) that does not end before it starts, creator Person/Organization, license for datasets that are not free |
+| Profile page (`profile-page`) | ProfilePage | mainEntity, mainEntity.name or alternateName | dateCreated, dateModified, mainEntity.image, mainEntity.description or sameAs | one Person or Organization as mainEntity (not text), interactionStatistic / agentInteractionStatistic as InteractionCounter with a supported interactionType and userInteractionCount, dateModified not before dateCreated |
+| Discussion forum (`discussion-forum`) | DiscussionForumPosting (not checked as Article) | author, author.name, datePublished, text or image or video; the same for every nested Comment | author.url, headline, url, dateModified, comment or interactionStatistic | text authors, datePublished in the future, dateModified before datePublished, replies dated before the post they answer (nested comments are followed) |
 
 Which items are checked: every top-level item (each JSON-LD object, `@graph` member, Microdata item and RDFa item),
 plus items reached through `mainEntity`, `breadcrumb`, `video`, `hasPart`, `subjectOf` and `ItemList` carousels.
@@ -228,6 +233,19 @@ Rules are grouped by prefix: `syntax`, `schema`, `value`, `graph`, `google`, a p
 | `local/price-range` | warning | priceRange should be shorter than 100 characters. |
 | `org/logo` | warning | The logo should be at least 112x112 pixels and have a URL. |
 | `org/identifier` | info | An Organization identifier is deprecated or malformed. |
+| `software/rating` | error | A software app needs aggregateRating or review. |
+| `software/category` | warning | applicationCategory is not one of the categories Google supports. |
+| `software/video-game` | error | A VideoGame must be co-typed with SoftwareApplication. |
+| `dataset/description` | error | The dataset description is not 50 to 5000 characters or repeats the name. |
+| `dataset/distribution` | error | A distribution is not a DataDownload with a contentUrl. |
+| `dataset/temporal-coverage` | error | temporalCoverage is not an ISO 8601 date or interval. |
+| `dataset/creator` | warning | The dataset creator should be a Person or Organization. |
+| `dataset/license` | info | A dataset that is not free to access has no license. |
+| `profile/main-entity` | error | A ProfilePage mainEntity must be one Person or Organization. |
+| `profile/interaction` | warning | An interaction statistic is not an InteractionCounter with a supported type. |
+| `profile/dates` | warning | Profile page dates are inconsistent. |
+| `forum/author` | warning | A forum post author should be a Person with a name, not text. |
+| `forum/dates` | warning | Forum post dates are inconsistent or in the future. |
 | `faq/structure` | warning | An FAQPage question is missing its name or accepted answer text. |
 | `content/not-visible` | info | Marked-up text does not appear in the visible page text. |
 | `content/price-mismatch` | info | The marked-up price does not appear in the visible page text. |
@@ -312,7 +330,7 @@ be used on its own. `Options.now` sets the clock for expiry checks, which keeps 
 ```bash
 python -m venv .venv && . .venv/bin/activate
 pip install -e .[dev]
-pytest            # about 310 tests
+pytest            # about 370 tests
 ruff check . && ruff format --check .
 ```
 
@@ -330,9 +348,9 @@ the Docker image.
   rich result, and Google may show none for policy or quality reasons.
 - **No JavaScript.** Markup injected by scripts is not seen. Lint the rendered HTML (for example from your static site
   build, or saved from a headless browser) if your structured data is added client side.
-- **Subset of features.** Only the features listed above are checked in depth. Others (Course, Dataset, Movie, Software
-  app, Vacation rental, Profile page, Q&A, Discussion forum, Paywalled content, Speakable, Math solvers, Education Q&A,
-  Image metadata, Employer rating, Carousel details) get the schema.org and value checks only.
+- **Subset of features.** Only the features listed above are checked in depth. Others (Course, Movie, Vacation rental,
+  Q&A, Paywalled content, Speakable, Math solvers, Education Q&A, Image metadata, Employer rating, Carousel details) get
+  the schema.org and value checks only.
 - **Merchant listing depth.** Shipping (`OfferShippingDetails`), return policies (`MerchantReturnPolicy`), member
   pricing, product variants (`ProductGroup`), certifications and size specifications are not validated yet.
 - **Recommended lists are selective for Organization.** Google recommends many Organization properties; the linter

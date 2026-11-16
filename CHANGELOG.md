@@ -6,6 +6,27 @@ All notable changes to this project are documented here. The format follows
 
 ## [Unreleased]
 
+### Added
+
+- Software app feature (`software-app`) for SoftwareApplication, MobileApplication, WebApplication and co-typed
+  VideoGame: required name, offers with a price, a rating or review, priceCurrency for paid apps, and Google's
+  `applicationCategory` values with suggestions. New rules `software/rating`, `software/category` and
+  `software/video-game`.
+- Dataset feature (`dataset`): description length (50 to 5000 characters), DataDownload distributions with
+  `contentUrl`, ISO 8601 `temporalCoverage` dates and intervals including open ends, creator type and DataCatalog
+  name. New rules `dataset/description`, `dataset/distribution`, `dataset/temporal-coverage`, `dataset/creator` and
+  `dataset/license`.
+- Profile page feature (`profile-page`): one Person or Organization as `mainEntity`, interaction statistics and date
+  order. New rules `profile/main-entity`, `profile/interaction` and `profile/dates`.
+- Discussion forum feature (`discussion-forum`) for DiscussionForumPosting and nested Comment replies: author, date
+  and content requirements, future dates and replies dated before their post. New rules `forum/author` and
+  `forum/dates`.
+
+### Changed
+
+- DiscussionForumPosting is no longer checked against the Article feature; it is covered by `discussion-forum`.
+- `--list-features` sizes its columns to the longest feature id and name.
+
 ## [0.1.0] - 2026-11-13
 
 ### Added
