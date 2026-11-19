@@ -6,6 +6,7 @@ from ...model import Item
 from ...values import as_datetime, parse_price
 from ..base import Context
 from .base import Feature
+from .merchant import check_return_policy, check_shipping
 from .review import REVIEW_SNIPPET
 
 
@@ -44,6 +45,8 @@ class Product(Feature):
                     continue
                 if not (ctx.present(offer, "priceCurrency") or ctx.present(offer, "priceSpecification.priceCurrency")):
                     self.merchant(ctx, offer, "priceCurrency", "Merchant listings need priceCurrency on every Offer.")
+                check_shipping(ctx, offer)
+                check_return_policy(ctx, offer)
 
     def merchant(self, ctx: Context, item: Item, prop: str | None, message: str) -> None:
         ctx.report(

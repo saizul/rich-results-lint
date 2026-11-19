@@ -67,6 +67,8 @@ _RULES = [
     Rule("product/aggregate-offer", E, "An AggregateOffer needs lowPrice and priceCurrency."),
     Rule("product/price-valid-until", W, "priceValidUntil is in the past, which can stop the snippet from showing."),
     Rule("merchant/required", W, "A property needed for merchant listing experiences is missing."),
+    Rule("merchant/shipping", W, "Offer shipping details are incomplete or inconsistent."),
+    Rule("merchant/return-policy", W, "A merchant return policy is incomplete or inconsistent."),
     Rule("review/rating-range", E, "A rating value is outside the bestRating and worstRating range."),
     Rule("review/author-name", W, "A review author name looks like a promotion or is too long."),
     Rule("review/item-type", W, "The reviewed item type is not one Google supports for review snippets."),

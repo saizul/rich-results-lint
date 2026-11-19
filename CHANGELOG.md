@@ -8,6 +8,14 @@ All notable changes to this project are documented here. The format follows
 
 ### Added
 
+- Merchant listing shipping and return policy checks. `merchant/shipping` covers `OfferShippingDetails`: a
+  shippingRate with a non-negative value and a currency, a shippingDestination with addressCountry, and handling and
+  transit times as whole days with minValue <= maxValue and unitCode DAY. `merchant/return-policy` covers
+  `MerchantReturnPolicy` on an Offer or an Organization: returnPolicyCategory, applicableCountry, merchantReturnDays
+  for a finite window, returnMethod and returnFees, returnShippingFeesAmount with ReturnShippingFees, and return
+  details listed for a policy that does not permit returns. Both are warnings; raise them with
+  `--severity merchant/*=error`.
+- A code of conduct, issue forms and a pull request template.
 - Software app feature (`software-app`) for SoftwareApplication, MobileApplication, WebApplication and co-typed
   VideoGame: required name, offers with a price, a rating or review, priceCurrency for paid apps, and Google's
   `applicationCategory` values with suggestions. New rules `software/rating`, `software/category` and

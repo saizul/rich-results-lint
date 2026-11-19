@@ -138,7 +138,7 @@ looks out of date, please open an issue with a link to the current page.
 | --- | --- | --- | --- | --- |
 | Article (`article`) | Article, NewsArticle, BlogPosting | none | author, author.name, author.url or sameAs, datePublished, dateModified, headline, image | author must be Person/Organization; author.name holds only the name, one author per entry; ImageObject needs a URL |
 | Product snippet (`product`) | Product (also co-typed, e.g. Product + Car) | name; one of offers, review or aggregateRating; Offer: price or priceSpecification.price; AggregateOffer: lowPrice, priceCurrency | Offer: priceCurrency, availability, priceValidUntil; AggregateOffer: highPrice, offerCount | price format, price 0 (free), past priceValidUntil, nested review and aggregateRating |
-| Merchant listing | Product with offers | image, Offer priceCurrency (reported as warning `merchant/required`; raise with `--severity`) | | price must be greater than 0 |
+| Merchant listing | Product with offers | image, Offer priceCurrency (reported as warning `merchant/required`; raise with `--severity`) | | price must be greater than 0; `shippingDetails`: shippingRate with a non-negative value and a currency, shippingDestination with addressCountry, handling and transit times as whole days with minValue <= maxValue and unitCode DAY (`merchant/shipping`); `hasMerchantReturnPolicy` on the Offer or the Organization: returnPolicyCategory, applicableCountry, merchantReturnDays for a finite window, returnMethod and returnFees, returnShippingFeesAmount for ReturnShippingFees, no return details when returns are not permitted (`merchant/return-policy`) |
 | Review snippet (`review`) | Review, AggregateRating, and review/aggregateRating nested in any checked item | Review: author, author.name, reviewRating, reviewRating.ratingValue, itemReviewed and its name (unless nested); AggregateRating: ratingValue, ratingCount or reviewCount, itemReviewed (unless nested) | datePublished | rating within worstRating..bestRating (default 1 to 5; percentages and fractions), author name under 100 characters and not promotional, supported itemReviewed types, self-serving reviews on LocalBusiness/Organization |
 | Breadcrumb (`breadcrumb`) | BreadcrumbList | itemListElement; ListItem: position, name (or a named item), item (except the last) | | at least two ListItems; integer positions starting at 1, unique and consecutive |
 | FAQ (`faq`) | FAQPage | | | reported as `google/deprecated-feature`: limited to government and health sites on 2023-09-14, no longer shown from 2026-05-07, documentation removed 2026-06-15; schema.org structure (Question name, acceptedAnswer text) still checked |
@@ -203,6 +203,8 @@ Rules are grouped by prefix: `syntax`, `schema`, `value`, `graph`, `google`, a p
 | `product/aggregate-offer` | error | An AggregateOffer needs lowPrice and priceCurrency. |
 | `product/price-valid-until` | warning | priceValidUntil is in the past, which can stop the snippet from showing. |
 | `merchant/required` | warning | A property needed for merchant listing experiences is missing. |
+| `merchant/shipping` | warning | Offer shipping details are incomplete or inconsistent. |
+| `merchant/return-policy` | warning | A merchant return policy is incomplete or inconsistent. |
 | `review/rating-range` | error | A rating value is outside the bestRating and worstRating range. |
 | `review/author-name` | warning | A review author name looks like a promotion or is too long. |
 | `review/item-type` | warning | The reviewed item type is not one Google supports for review snippets. |
@@ -351,8 +353,8 @@ the Docker image.
 - **Subset of features.** Only the features listed above are checked in depth. Others (Course, Movie, Vacation rental,
   Q&A, Paywalled content, Speakable, Math solvers, Education Q&A, Image metadata, Employer rating, Carousel details) get
   the schema.org and value checks only.
-- **Merchant listing depth.** Shipping (`OfferShippingDetails`), return policies (`MerchantReturnPolicy`), member
-  pricing, product variants (`ProductGroup`), certifications and size specifications are not validated yet.
+- **Merchant listing depth.** Member pricing, product variants (`ProductGroup`), certifications, size specifications
+  and shipping conditions (`ShippingConditions`, `ShippingService`) are not validated yet.
 - **Recommended lists are selective for Organization.** Google recommends many Organization properties; the linter
   reports the ones that matter most (name, url, logo, sameAs, address, a contact) to keep the noise down.
 - **Content hints are heuristics.** Text rendered by JavaScript, abbreviations or different number formats can cause
