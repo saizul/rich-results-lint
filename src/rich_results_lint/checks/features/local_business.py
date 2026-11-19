@@ -8,6 +8,7 @@ from ...model import Item
 from ...values import decimals, parse_number
 from ..base import Context
 from .base import Feature
+from .merchant import check_return_policy
 from .review import check_self_serving
 
 DAYS = {"Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday", "PublicHolidays"}
@@ -158,6 +159,8 @@ class Organization(Feature):
                     "legalName",
                 )
         check_self_serving(ctx, self, item)
+        # Google accepts a store-wide return policy on the Organization.
+        check_return_policy(ctx, item)
 
 
 LOCAL_BUSINESS = LocalBusiness()
